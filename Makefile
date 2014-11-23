@@ -5,7 +5,7 @@
 SHELL = /bin/bash
 
 BIN = .
-SRC = $(wildcard *.l)
+SRC = $(wildcard *.lex)
 EXE = $(basename $(BIN)/$(SRC))
 
 CFLAGS = -Wall -Wl,--no-as-needed
@@ -22,7 +22,7 @@ $(BIN)/%: %.o
 %.o: %.c
 	$(CXX) -c -x c++ $(CXXFLAGS) $<
 
-%.c: %.l
+%.c: %.lex
 	$(LEX) -o $@ $<
 
 clean:
