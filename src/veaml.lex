@@ -29,6 +29,7 @@ along with this file.  If not, see http://www.gnu.org/licenses/.
 #include <iostream>
 #include <string>
 #include <cstdio>
+#include "timeline.h"
 
 enum mark_t {
   TIMELINE,

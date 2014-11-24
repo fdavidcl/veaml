@@ -3,3 +3,6 @@ doc/*.pdf
 bin/*
 obj/*
 .fuse*
+Makefile
+build/Makefile
+src/*.lexer.cc
