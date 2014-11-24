@@ -6,3 +6,4 @@ obj/*
 Makefile
 build/Makefile
 src/*.lexer.cc
+thirdparty/
