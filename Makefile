@@ -4,9 +4,11 @@
 
 SHELL = /bin/bash
 
-BIN = .
-SRC = $(wildcard *.lex)
-EXE = $(basename $(BIN)/$(SRC))
+BIN = bin
+OBJ = obj
+SRCF = src
+SRC = $(wildcard $(SRCF)/*.lex)
+EXE = $(basename $(BIN)/$(notdir $(SRC)))
 
 CFLAGS = -Wall -Wl,--no-as-needed
 CXXFLAGS = $(CFLAGS) -std=c++0x
@@ -16,13 +18,13 @@ LDFLAGS = -ll -I/usr/include
 
 default: $(EXE)
 
-$(BIN)/%: %.o
+$(BIN)/%: $(OBJ)/%.o
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
-%.o: %.c
-	$(CXX) -c -x c++ $(CXXFLAGS) $<
+$(OBJ)/%.o: $(SRCF)/%.c
+	$(CXX) -c -o $@ -x c++ $(CXXFLAGS) $<
 
-%.c: %.lex
+$(SRCF)/%.c: $(SRCF)/%.lex
 	$(LEX) -o $@ $<
 
 clean:

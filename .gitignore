@@ -1,2 +1,5 @@
 *.pdf
-veaml
+doc/*.pdf
+bin/*
+obj/*
+.fuse*
