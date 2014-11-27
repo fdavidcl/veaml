@@ -1,7 +1,7 @@
 *.pdf
 doc/*.pdf
 bin/*
-obj/*
+*.o
 .fuse*
 Makefile
 build/Makefile

@@ -1,15 +1,4 @@
 %{
- 
-/**************************************************************************
-
-This Source Code Form is subject to the terms of the Mozilla Public
-License, v. 2.0. If a copy of the MPL was not distributed with this file,
-You can obtain one at http://mozilla.org/MPL/2.0/.
-
-Copyright (c) 2014, David Charte fdavidcl@outlook.com
-
-***************************************************************************/
-
 #include <iostream>
 #include <string>
 #include <cstdio>
@@ -54,7 +43,7 @@ std::string current_content;
 %s expect_content
 
 low         [a-z]
-num         ([0-9]*\.?)+
+num         ([0-9]*\.|[0-9]+\.?){1,3}
 blank       [\ \t]
 blanks      {blank}+
 

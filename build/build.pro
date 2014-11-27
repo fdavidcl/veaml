@@ -16,11 +16,20 @@ INCLUDEPATH += . \
   "../thirdparty/libopenshot/include/include/Qt" \
   "../thirdparty/libopenshot-audio/include"
 
-LIBS += -L../thirdparty/libopenshot/lib -L../thirdparty/libopenshot-audio/lib -lopenshot -lopenshot-audio -lfl
+LIBS += -L../thirdparty/libopenshot/lib \
+  -L../thirdparty/libopenshot-audio/lib \
+  -lopenshot -lopenshot-audio -lfl -lrt -std=c++11
 
 # Flex/Lex
 FLEXSOURCES += ../src/veaml.lex
 
 # Input
-HEADERS += ../include/timeline.h
-SOURCES += ../src/timeline.cc
+HEADERS += \
+  ../include/timeline.h \
+  ../include/clip.h \
+  ../include/instant.h \
+  ../include/video.h
+
+SOURCES += \
+  ../src/timeline.cc \
+  ../src/video.cc
