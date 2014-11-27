@@ -1,41 +1,21 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
-   License, v. 2.0. If a copy of the MPL was not distributed with this
-   file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  /* This Source Code Form is subject to the terms of the Mozilla Public
+     License, v. 2.0. If a copy of the MPL was not distributed with this
+     file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-   Copyright (c) 2014, David Charte fdavidcl@outlook.com               */
+     Copyright (c) 2014, David Charte fdavidcl@outlook.com               */
 
 %{
 #include <iostream>
 #include <string>
 #include <cstdio>
+#include "mark.h"
 #include "timeline.h"
-
-enum mark_t {
-  TIMELINE,
-  VIDEO,
-  AUDIO,
-  IMAGE,
-  TEXT
-};
-
-enum attr_t {
-  /* Timing attributes */
-  FROM,
-  TO,
-  START,
-  END,
-
-  /* Size and position attributes *
-   * (for videos and pictures)    */
-  WIDTH,
-  HEIGHT,
-  TOP,
-  LEFT
-};
+#include "video.h"
 
 int lines;
-mark_t current_mark;
-attr_t current_attr;
+veaml::Timeline * current_timeline;
+veaml::Mark * current_mark;
+veaml::attr_t current_attr;
 std::string current_content;
 %}
 
@@ -74,8 +54,10 @@ comment     #(.*?)$
   /* Detectamos una marca */
 <INITIAL,newline>{mark} {
   /* Si estábamos leyendo una marca previa, la procesamos */
-  if (current_content.length() > 0)
+  if (current_content.length() > 0 && current_mark != 0) {
+    current_mark->set(current_attr, current_content);
     std::cout << "Contenido de la marca: " << current_content << std::endl;
+  }
   
   /* Comenzamos lectura de nueva marca */
   std::cout << "Found mark! " << yytext << std::endl;
@@ -83,10 +65,10 @@ comment     #(.*?)$
   std::string mark_text(yytext);
 
   if (mark_text == "%timeline") {
-    current_mark = TIMELINE;
+    current_mark = new veaml::Timeline();
     BEGIN(mark);
   } else if (mark_text == "%video") {
-    current_mark = VIDEO;
+    current_mark = new veaml::Video();
     BEGIN(mark);
   } else {
     std::cout << "Esta marca no es válida!" << std::endl;

@@ -5,19 +5,19 @@ TARGET = ../bin/veaml
 QT += widgets
 INCLUDEPATH += . \
   ../include \
+  "/usr/local/include/libopenshot" \
+  "/usr/local/include/libopenshot/thirdparty" \
+  "/usr/local/include/libopenshot/include" \
+  "/usr/local/include/libopenshot/include/Qt" \
+  "/usr/local/include/libopenshot-audio" \
   "/usr/include/ImageMagick" \
   "/usr/include/qt5" \
   "/usr/include/qt5/QtGui" \
-  "/usr/include/qt5/QtCore" \
   "/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64" \
-  "../thirdparty/libopenshot/include" \
-  "../thirdparty/libopenshot/include/thirdparty" \
-  "../thirdparty/libopenshot/include/include" \
-  "../thirdparty/libopenshot/include/include/Qt" \
-  "../thirdparty/libopenshot-audio/include"
+  "/usr/include/qt5/QtCore"
 
-LIBS += -L../thirdparty/libopenshot/lib \
-  -L../thirdparty/libopenshot-audio/lib \
+LIBS += -L/usr/local/lib/libopenshot \
+  -L/usr/local/lib/libopenshot-audio \
   -lopenshot -lopenshot-audio -lfl -lrt -std=c++11
 
 # Flex/Lex
@@ -25,10 +25,7 @@ FLEXSOURCES += ../src/veaml.lex
 
 # Input
 HEADERS += \
-  ../include/timeline.h \
-  ../include/clip.h \
-  ../include/instant.h \
-  ../include/video.h
+  ../include/*.h
 
 SOURCES += \
   ../src/timeline.cc \

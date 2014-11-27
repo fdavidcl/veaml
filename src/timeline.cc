@@ -9,6 +9,10 @@
 veaml::Timeline::Timeline(int width, int height)
   :res(width, height) { }
 
+bool veaml::Timeline::set(attr_t attr, std::string value) {
+  return true;
+}
+
 bool veaml::Timeline::add(veaml::Video& v) {
   return true;
 }

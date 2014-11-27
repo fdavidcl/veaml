@@ -11,7 +11,7 @@ void veaml::Video::set_resolution(openshot::Clip& content, int width, int height
     content.Reader()->Open();
 
     tr1::shared_ptr<openshot::Frame> first = content.GetFrame(1);
-    real_r = res = veaml::Resolution(first->GetWidth(), first->GetHeight());
+    res = veaml::Resolution(first->GetWidth(), first->GetHeight());
   } else {
 
   }
@@ -26,8 +26,13 @@ void veaml::Video::set_timing(openshot::Clip& content) {
 openshot::Clip veaml::Video::to_openshot() {
   openshot::Clip content(new FFmpegReader(filename));
 
+
   set_timing(content);
   set_resolution(content, res.width, res.height);
 
   return content;
+}
+
+bool veaml::Video::set(veaml::attr_t attr, std::string value) {
+  return true;
 }
