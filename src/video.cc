@@ -23,6 +23,10 @@ void veaml::Video::set_timing(openshot::Clip& content) {
   content.End(t_to.to_f());
 }
 
+bool veaml::Video::dispatch_add(veaml::Timeline& container) {
+  return container.add(*this);
+}
+
 openshot::Clip veaml::Video::to_openshot() {
   openshot::Clip content(new FFmpegReader(filename));
 

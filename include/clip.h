@@ -9,6 +9,7 @@
 
 #include "mark.h"
 #include "instant.h"
+#include "timeline.h"
 #include <OpenShot.h>
 #include <string>
 
@@ -35,16 +36,9 @@ namespace veaml {
     const std::string& file() const { return filename; }
     std::string& file() { return filename; }
     
+    virtual bool dispatch_add(veaml::Timeline& container) = 0;
     virtual bool set(attr_t attr, std::string value) = 0;
     virtual openshot::Clip to_openshot() = 0;
-  };
-
-  struct Resolution {
-    unsigned int width;
-    unsigned int height;
-
-    Resolution() :width(0), height(0) {}
-    Resolution(int x, int y) :width(x), height(y) {}
   };
 }
 

@@ -7,6 +7,7 @@
 #ifndef _VEAML_MARK
 #define _VEAML_MARK
 
+#include <vector>
 #include <string>
 
 namespace veaml {
@@ -22,7 +23,21 @@ namespace veaml {
     WIDTH,
     HEIGHT,
     TOP,
-    LEFT
+    LEFT,
+
+    CONTENT
+  };
+
+  const std::string attr_names[] = {
+    "from",
+    "to",
+    "start",
+    "end",
+
+    "width",
+    "height",
+    "top",
+    "left"
   };
 
   class Mark {

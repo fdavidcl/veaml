@@ -3,6 +3,8 @@ include(flex.pri)
 TEMPLATE = app
 TARGET = ../bin/veaml
 QT += widgets
+CXXFLAGS += -std=c++11
+
 INCLUDEPATH += . \
   ../include \
   "/usr/local/include/libopenshot" \

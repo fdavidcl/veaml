@@ -9,14 +9,18 @@
 #include <string>
 #include <cstdio>
 #include "mark.h"
+#include "clip.h"
 #include "timeline.h"
 #include "video.h"
 
 int lines;
 veaml::Timeline * current_timeline;
+bool adding_timeline = false;
 veaml::Mark * current_mark;
 veaml::attr_t current_attr;
 std::string current_content;
+
+int assign_content();
 %}
 
 %s newline
@@ -29,7 +33,7 @@ std::string current_content;
 %s expect_content
 
 low         [a-z]
-num         ([0-9]*\.|[0-9]+\.?){1,3}
+time         ([0-9]*\.|[0-9]+\.?){1,3}
 blank       [\ \t]
 blanks      {blank}+
 
@@ -38,7 +42,7 @@ mark        %{low}+
 attrbegin   \{
 attr        {low}+
 colon       {blanks}?:{blanks}?
-attrvalue   (\"{low}+\"|\'{low}+\'|{num})
+attrvalue   (\"{low}+\"|\'{low}+\'|{time})
 comma       {blanks}?,{blanks}?
 attrend     \}{blanks}?
 
@@ -54,24 +58,24 @@ comment     #(.*?)$
   /* Detectamos una marca */
 <INITIAL,newline>{mark} {
   /* Si estábamos leyendo una marca previa, la procesamos */
-  if (current_content.length() > 0 && current_mark != 0) {
-    current_mark->set(current_attr, current_content);
-    std::cout << "Contenido de la marca: " << current_content << std::endl;
-  }
+  int status = assign_content();
+  if (status < 0) return status;
   
   /* Comenzamos lectura de nueva marca */
-  std::cout << "Found mark! " << yytext << std::endl;
-  
   std::string mark_text(yytext);
 
-  if (mark_text == "%timeline") {
+  adding_timeline = mark_text == "%timeline";
+
+  if (adding_timeline) {
     current_mark = new veaml::Timeline();
+    current_timeline = static_cast<veaml::Timeline*>(current_mark);
     BEGIN(mark);
   } else if (mark_text == "%video") {
     current_mark = new veaml::Video();
     BEGIN(mark);
   } else {
-    std::cout << "Esta marca no es válida!" << std::endl;
+    std::cerr << "Error (línea " << lines << "): La marca " 
+      << mark_text << " no es válida!" << std::endl;
     return -1;
   }
 }
@@ -81,8 +85,16 @@ comment     #(.*?)$
 
 <expect_first_attr,expect_attr>{attr} {
   std::string cur_attr(yytext);
+  bool found = false;
 
-  std::cout << "Atributo: " << cur_attr << std::endl;
+  int size = sizeof(veaml::attr_names) / sizeof(std::string);
+
+  for (int i = 0; i < size && !found; ++i)
+    if (cur_attr == veaml::attr_names[i]) {
+      found = true;
+      current_attr = static_cast<veaml::attr_t>(i);
+    }
+
   BEGIN(expect_colon);
 }
 
@@ -91,7 +103,8 @@ comment     #(.*?)$
 }
 
 <expect_value>{attrvalue} {
-  std::cout << "Valor del atributo: " << yytext << std::endl;
+  if (current_mark != 0)
+    current_mark->set(current_attr, std::string(yytext));
   BEGIN(end_attr);
 }
   /* Esperamos siguiente atributo */
@@ -116,10 +129,7 @@ comment     #(.*?)$
 }
 
 <newline><<EOF>> {
-  if (current_content.length() > 0)
-    std::cout << "Contenido de la marca: " << current_content << std::endl;
-
-  return 0;
+  return assign_content();
 }
 
 {comment}         {;}
@@ -127,9 +137,26 @@ comment     #(.*?)$
 <INITIAL>\n       { lines++; }
 \n                { lines++; BEGIN(newline); }
 
-.                 { std::cerr << "Error in line " << lines << "." << std::endl; return -1; }
+. {
+  std::cerr << "Error de sintaxis (línea " << lines << ")." << std::endl; return -1; 
+}
 
 %%
+
+int assign_content() {
+  if (current_content.length() > 0 && current_mark != 0) {
+    if (!(current_mark->set(veaml::CONTENT, current_content))) {
+      std::cerr << "Error (línea " << lines << 
+        "): El contenido de la marca no es válido." << std::endl;
+      return -2;
+    }
+
+    if (current_timeline != 0 && !adding_timeline)
+      (dynamic_cast<veaml::Clip*>(current_mark))->dispatch_add(*current_timeline);
+  }
+
+  return 0;
+}
 
 int main(int argc, char* argv[]) {
   if (argc > 1) {

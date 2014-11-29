@@ -7,19 +7,22 @@
 #ifndef _VEAML_TIMELINE
 #define _VEAML_TIMELINE
 
+namespace veaml { class Timeline; }
+
 #include "mark.h"
-#include "video.h"
+#include "resolution.h"
 #include <vector>
 #include <OpenShot.h>
 
 namespace veaml {
   class Audio;
+  class Video;
   class Image;
 
   class Timeline : public Mark {
   private:
     std::vector<Clip*> v;
-    Resolution res;
+    veaml::Resolution res;
 
   public:
     Timeline(int width, int height);
