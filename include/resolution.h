@@ -9,10 +9,10 @@
 
 namespace veaml {
   struct Resolution {
-    unsigned int width;
-    unsigned int height;
+    int width;
+    int height;
 
-    Resolution() :width(0), height(0) {}
+    Resolution() :width(-1), height(-1) {}
     Resolution(int x, int y) :width(x), height(y) {}
   };
 }

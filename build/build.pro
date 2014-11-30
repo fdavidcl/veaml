@@ -3,7 +3,7 @@ include(flex.pri)
 TEMPLATE = app
 TARGET = ../bin/veaml
 QT += widgets
-CXXFLAGS += -std=c++11
+CONFIG += c++11
 
 INCLUDEPATH += . \
   ../include \
@@ -31,4 +31,5 @@ HEADERS += \
 
 SOURCES += \
   ../src/timeline.cc \
+  ../src/instant.cc \
   ../src/video.cc

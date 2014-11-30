@@ -25,6 +25,10 @@ namespace veaml {
     TOP,
     LEFT,
 
+    /* Codec attributes for timeline */
+    ACODEC,
+    VCODEC,
+
     CONTENT
   };
 
@@ -37,7 +41,10 @@ namespace veaml {
     "width",
     "height",
     "top",
-    "left"
+    "left",
+
+    "audiocodec",
+    "videocodec"
   };
 
   class Mark {

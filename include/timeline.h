@@ -7,39 +7,34 @@
 #ifndef _VEAML_TIMELINE
 #define _VEAML_TIMELINE
 
-namespace veaml { class Timeline; }
+namespace veaml { class Clip; }
 
-#include "mark.h"
 #include "resolution.h"
+#include <string>
 #include <vector>
 #include <OpenShot.h>
 
 namespace veaml {
-  class Audio;
-  class Video;
-  class Image;
-
   class Timeline : public Mark {
   private:
-    std::vector<Clip*> v;
+    std::vector<veaml::Clip*> tl;
     veaml::Resolution res;
+    openshot::Fraction framerate;
+    unsigned int audiorate = 44100;
+    unsigned int channels = 2;
+    std::string filename;
+    std::string audiocodec;
+    std::string videocodec;
 
   public:
     Timeline(int width, int height);
     Timeline() :Timeline(0, 0) {}
-    bool add(veaml::Video& v);
-    bool add(veaml::Audio& v);
-    bool add(veaml::Image& v);
+
+    bool add(veaml::Clip& v);
 
     bool set(attr_t attr, std::string value);
     openshot::Timeline to_openshot();
-  };
-
-  class Audio {
-    
-  };
-  class Image {
-    
+    bool output();
   };
 }
 

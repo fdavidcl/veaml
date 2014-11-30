@@ -21,6 +21,7 @@ veaml::attr_t current_attr;
 std::string current_content;
 
 int assign_content();
+int process_timeline();
 %}
 
 %s newline
@@ -33,7 +34,8 @@ int assign_content();
 %s expect_content
 
 low         [a-z]
-time         ([0-9]*\.|[0-9]+\.?){1,3}
+alpha       [A-Za-z0-9]
+time        ([0-9]*\.|[0-9]+\.?){1,2}([0-9]*)?
 blank       [\ \t]
 blanks      {blank}+
 
@@ -42,7 +44,7 @@ mark        %{low}+
 attrbegin   \{
 attr        {low}+
 colon       {blanks}?:{blanks}?
-attrvalue   (\"{low}+\"|\'{low}+\'|{time})
+attrvalue   {alpha}+|{time}
 comma       {blanks}?,{blanks}?
 attrend     \}{blanks}?
 
@@ -67,6 +69,13 @@ comment     #(.*?)$
   adding_timeline = mark_text == "%timeline";
 
   if (adding_timeline) {
+    if (current_timeline != 0) { // Ya teníamos un timeline en el archivo
+      int proc = process_timeline();
+
+      if (!proc)
+        return proc;
+    }
+
     current_mark = new veaml::Timeline();
     current_timeline = static_cast<veaml::Timeline*>(current_mark);
     BEGIN(mark);
@@ -103,8 +112,11 @@ comment     #(.*?)$
 }
 
 <expect_value>{attrvalue} {
-  if (current_mark != 0)
-    current_mark->set(current_attr, std::string(yytext));
+  if (current_mark != 0) {
+    if (current_mark->set(current_attr, std::string(yytext)))
+      std::cerr << "Añadido atributo." << std::endl;
+  }
+
   BEGIN(end_attr);
 }
   /* Esperamos siguiente atributo */
@@ -129,7 +141,12 @@ comment     #(.*?)$
 }
 
 <newline><<EOF>> {
-  return assign_content();
+  int fin = assign_content();
+
+  if (fin != 0)
+    return fin;
+
+  return process_timeline();
 }
 
 {comment}         {;}
@@ -152,7 +169,16 @@ int assign_content() {
     }
 
     if (current_timeline != 0 && !adding_timeline)
-      (dynamic_cast<veaml::Clip*>(current_mark))->dispatch_add(*current_timeline);
+      current_timeline->add(*(dynamic_cast<veaml::Clip*>(current_mark)));
+  }
+
+  return 0;
+}
+
+int process_timeline() {
+  if (!current_timeline->output()) {
+    std::cerr << "Error al procesar la salida. Compruebe que los archivos existen." << std::endl;
+    return -3;
   }
 
   return 0;

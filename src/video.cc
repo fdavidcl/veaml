@@ -6,21 +6,26 @@
 
 #include "video.h"
 
-void veaml::Video::set_resolution(openshot::Clip& content, int width, int height) {
-  if (width < 0 && height < 0) {
-    content.Reader()->Open();
-
-    tr1::shared_ptr<openshot::Frame> first = content.GetFrame(1);
-    res = veaml::Resolution(first->GetWidth(), first->GetHeight());
+void veaml::Video::set_resolution(openshot::Clip& content) {
+  tr1::shared_ptr<openshot::Frame> first = content.GetFrame(1);
+  veaml::Resolution real(first->GetWidth(), first->GetHeight());
+  
+  if (res.width < 0 && res.height < 0) {
+    res = real;
   } else {
-
+    content.scale = SCALE_FIT;
+    // Falta escalar el vídeo!!
   }
 }
 
 void veaml::Video::set_timing(openshot::Clip& content) {
-  content.Position(0.0);
+  content.Position(t_start.to_f());
   content.Start(t_from.to_f());
-  content.End(t_to.to_f());
+
+  if (t_to.to_f() > 0)
+    content.End(t_to.to_f());
+  else if (t_end.to_f() > 0)
+    content.End(t_from.to_f() + t_end.to_f() - t_start.to_f());
 }
 
 bool veaml::Video::dispatch_add(veaml::Timeline& container) {
@@ -28,15 +33,39 @@ bool veaml::Video::dispatch_add(veaml::Timeline& container) {
 }
 
 openshot::Clip veaml::Video::to_openshot() {
-  openshot::Clip content(new FFmpegReader(filename));
-
+  openshot::Clip content(filename);
+  content.Reader()->Open();
 
   set_timing(content);
-  set_resolution(content, res.width, res.height);
+  set_resolution(content);
 
   return content;
 }
 
 bool veaml::Video::set(veaml::attr_t attr, std::string value) {
-  return true;
+  switch (attr) {
+    case WIDTH:
+      res.width = std::stoi(value);
+      return true;
+    case HEIGHT:
+      res.height = std::stoi(value);
+      return true;
+    case FROM:
+      t_from = Instant(value);
+      return true;
+    case TO:
+      t_to = Instant(value);
+      return true;
+    case START:
+      t_start = Instant(value);
+      return true;
+    case END:
+      t_start = Instant(value);
+      return true;
+    case CONTENT:
+      filename = value;
+      return true;
+    default:
+      return false;
+  }
 }

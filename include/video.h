@@ -18,7 +18,7 @@ namespace veaml {
     veaml::Instant t_to;
 
     void set_timing(openshot::Clip& content);
-    void set_resolution(openshot::Clip& content, int width = -1, int height = -1);
+    void set_resolution(openshot::Clip& content);
   public:
     Video() {}
     Video(std::string file) :Clip(file) {}
