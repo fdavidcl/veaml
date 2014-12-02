@@ -36,6 +36,7 @@ namespace veaml {
     const std::string& file() const { return filename; }
     std::string& file() { return filename; }
     
+    virtual double duration() = 0;
     virtual bool dispatch_add(veaml::Timeline& container) = 0;
     virtual bool set(attr_t attr, std::string value) = 0;
     virtual openshot::Clip to_openshot() = 0;

@@ -1,6 +1,6 @@
 
 # Timeline es un contenedor que generará un único vídeo como salida
-%timeline{width: 1280, height: 720, videocodec: flac, audiocodec: mpeg2video} output.mkv
+%timeline{width: 1280, height: 720, videocodec: libvpx, audiocodec: pcm_s16le} out.mkv
   # Cada marca Video se puede delimitar
   %video{from: 5, to: .50} video.mkv
   %video{from: .50, to: 1.50} video.mkv

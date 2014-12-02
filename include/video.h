@@ -26,6 +26,7 @@ namespace veaml {
     //Video(std::string file, veaml::Resolution r);
     //Video(std::string file, veaml::Instant f, veaml::Instant t, veaml::Resolution r);
     
+    double duration();
     bool dispatch_add(veaml::Timeline& container);
     bool set(attr_t attr, std::string value);
     openshot::Clip to_openshot();

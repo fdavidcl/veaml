@@ -6,7 +6,7 @@
 
 #include "instant.h"
 
-veaml::Instant::Instant(float secs) {
+veaml::Instant::Instant(double secs) {
   n_sec = secs / 1;
   n_cent = ((secs-n_sec)*100)/1;
   n_min = n_sec / 60;
@@ -50,6 +50,6 @@ veaml::Instant::Instant(std::string value) {
   std::cerr << "Instant " << n_min << "." << n_sec << "." << n_cent << std::endl;
 }
 
-float veaml::Instant::to_f() {
+double veaml::Instant::to_f() {
   return n_min * 60 + n_sec + (n_cent / 100.0);
 }

@@ -4,6 +4,7 @@ TEMPLATE = app
 TARGET = ../bin/veaml
 QT += widgets
 CONFIG += c++11
+QMAKE_CXXFLAGS += -O2 -fopenmp
 
 INCLUDEPATH += . \
   ../include \

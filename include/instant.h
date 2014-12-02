@@ -24,7 +24,7 @@ namespace veaml {
     Instant(int ns)                  :n_min(0),  n_sec(ns), n_cent(0)  {}
     Instant(int nm, int ns)          :n_min(nm), n_sec(ns), n_cent(0)  {}
     Instant(int nm, int ns, int nc)  :n_min(nm), n_sec(ns), n_cent(nc) {}
-    Instant(float secs);
+    Instant(double secs);
     /*
       Creates an Instant from a string following the pattern
       1.20.50
@@ -40,7 +40,7 @@ namespace veaml {
     const int& cent() const { return n_cent; }
     int& cent() { return n_cent; }
 
-    float to_f();
+    double to_f();
   };
 }
 

@@ -69,3 +69,7 @@ bool veaml::Video::set(veaml::attr_t attr, std::string value) {
       return false;
   }
 }
+
+double veaml::Video::duration() {
+  return t_to.to_f() - t_from.to_f();
+}

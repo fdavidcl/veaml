@@ -44,7 +44,7 @@ mark        %{low}+
 attrbegin   \{
 attr        {low}+
 colon       {blanks}?:{blanks}?
-attrvalue   {alpha}+|{time}
+attrvalue   ({alpha}|_|\-)+|{time}
 comma       {blanks}?,{blanks}?
 attrend     \}{blanks}?
 
@@ -114,7 +114,7 @@ comment     #(.*?)$
 <expect_value>{attrvalue} {
   if (current_mark != 0) {
     if (current_mark->set(current_attr, std::string(yytext)))
-      std::cerr << "Añadido atributo." << std::endl;
+      std::cerr << "Añadido atributo con valor -" << yytext << "-." << std::endl;
   }
 
   BEGIN(end_attr);
@@ -201,5 +201,5 @@ int main(int argc, char* argv[]) {
   if (parse_state != 0)
     return parse_state;
 
-  return 0;
+  return 0;  
 }

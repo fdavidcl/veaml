@@ -39,12 +39,17 @@ bool veaml::Timeline::add(veaml::Clip& v) {
 }
 
 bool veaml::Timeline::output() {
-  //try {
+  try {
     // Comprobación de parámetros!!
+    int duration = 0;
+
     openshot::Timeline out(res.width, res.height, framerate, audiorate, channels);
 
     for (std::vector<veaml::Clip*>::iterator i = tl.begin(); i != tl.end(); ++i) {
       openshot::Clip* vid = new openshot::Clip((*i)->to_openshot());
+
+      int this_duration = (*i)->start().to_f() + (*i)->duration();
+      if (this_duration > duration) duration = this_duration;
 
       std::cerr << "Añadiendo vídeo " << (*i)->file() << std::endl; 
       
@@ -56,32 +61,38 @@ bool veaml::Timeline::output() {
 
     openshot::FFmpegWriter writer(filename);
 
-    // Set options
-    writer.SetAudioOptions(true, audiocodec, audiorate, channels, 128000); // Sample Rate: 44100, Channels: 2, Bitrate: 128000
-    writer.SetVideoOptions(true, videocodec, framerate, res.width, res.height, openshot::Fraction(1,1), false, false, 300000); // FPS: 24, Size: 720x480, Pixel Ratio: 1/1, Bitrate: 300000
+    writer.SetAudioOptions(
+      true,                    // has audio?
+      audiocodec,              // string for audio codec
+      audiorate,               // audio sample rate
+      channels,                // channels (2 for stereo)
+      128000                   // bitrate
+    );
+    
+    writer.SetVideoOptions(
+      true,                    // has video? 
+      videocodec,              // String for video codec
+      framerate,               // fps (25/1)
+      res.width, res.height,   // resolution
+      openshot::Fraction(1,1), // pixel ratio
+      false, false,            // interlaced, top_field_first
+      2000000                  // bitrate
+    );
 
-    // Prepare Streams
     writer.PrepareStreams();
-    // Write header
     writer.WriteHeader();
 
-    // Write all frames from the reader
-    writer.WriteFrame(&out, 1, out.info.video_length);
-    // Write Footer
+    // Escribir todos los frames desde el Timeline
+    writer.WriteFrame(&out, 1, duration * framerate.ToDouble());
+    
     writer.WriteTrailer();
-    // Close the reader & writer
     writer.Close();
 
-    return true;
-  /*} catch(BaseException ex) {
-    return false;
-  }*/
-}
+    out.Close();
 
-/*
-bool veaml::Timeline::add(veaml::Audio& v) {
-  return true;
+    return true;
+  } catch(BaseException ex) {
+    std::cout << "Error al procesar el vídeo: " << ex.what() << std::endl;
+    return false;
+  }
 }
-bool veaml::Timeline::add(veaml::Image& v) {
-  return true;
-}*/
