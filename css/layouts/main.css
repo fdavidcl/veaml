@@ -17,6 +17,7 @@ body {
   line-height: 1.7em;
   color: #7f8c8d;
   font-size: 13px;
+  font-family: Lato, 'Lato', sans-serif;
 }
 
 h1,
@@ -162,11 +163,10 @@ a.pure-button-primary {
 /* This is the main heading that appears on the blue section */
 .splash-head {
   font-size: 150%;
-  font-weight: bold;
   color: white;
-  border: 1px solid white;
+  border: 1px solid;
   padding: 1em 1.6em;
-  font-weight: 100;
+  font-weight: 300;
   line-height: 1em;
   max-width: 664px;
   margin: auto;
