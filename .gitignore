@@ -1,9 +1,2 @@
-*.pdf
-doc/*.pdf
-bin/*
-*.o
-.fuse*
-Makefile
-build/Makefile
-src/*.lexer.cc
-thirdparty/
+*~
+_site
