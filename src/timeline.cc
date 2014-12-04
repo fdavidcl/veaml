@@ -38,24 +38,53 @@ bool veaml::Timeline::add(veaml::Clip& v) {
   return true;
 }
 
+double veaml::Timeline::adjust_timing() {
+  Instant duration = 0;
+
+  for (std::vector<veaml::Clip*>::iterator i = tl.begin(); i != tl.end(); ++i) {
+    // from, to -> relativos al clip.
+    // start, end -> relativos al timeline.
+
+    // Ajustar los comienzos de cada vídeo si no están puestos manualmente
+    if ((*i)->start() < 0)
+      (*i)->start() = duration;
+
+    // Calcular el final del vídeo
+    if ((*i)->to() < 0) {
+      if ((*i)->end() < 0) {
+        (*i)->to() = (*i)->to_openshot().End();
+        (*i)->end() = (*i)->start() + (*i)->duration();
+      } else {
+        (*i)->to() = (*i)->end() - (*i)->start();
+      }
+    } else {
+      (*i)->end() = (*i)->start() + (*i)->duration();
+    }
+
+    if ((*i)->end().to_f() >= duration.to_f())
+      duration = (*i)->end();
+  }
+
+  return duration;
+}
+
 bool veaml::Timeline::output() {
+  double duration = adjust_timing();
+
   try {
     // Comprobación de parámetros!!
-    int duration = 0;
 
     openshot::Timeline out(res.width, res.height, framerate, audiorate, channels);
+    std::cerr << "Procesado vídeo. Duración: " << duration << std::endl;
 
     for (std::vector<veaml::Clip*>::iterator i = tl.begin(); i != tl.end(); ++i) {
+      std::cerr << "Añadiendo vídeo " << (*i)->file() << std::endl; 
       openshot::Clip* vid = new openshot::Clip((*i)->to_openshot());
 
-      int this_duration = (*i)->start().to_f() + (*i)->duration();
-      if (this_duration > duration) duration = this_duration;
-
-      std::cerr << "Añadiendo vídeo " << (*i)->file() << std::endl; 
-      
-      vid->Reader()->Open();
       out.AddClip(vid);
     }
+
+    std::cerr << "Tenemos " << out.Clips().size() << " clips." << std::endl;
 
     out.Open();
 
@@ -74,8 +103,8 @@ bool veaml::Timeline::output() {
       videocodec,              // String for video codec
       framerate,               // fps (25/1)
       res.width, res.height,   // resolution
-      openshot::Fraction(1,1), // pixel ratio
-      false, false,            // interlaced, top_field_first
+      openshot::Fraction(5,4), // pixel ratio
+      true, false,            // interlaced, top_field_first
       2000000                  // bitrate
     );
 
@@ -83,6 +112,8 @@ bool veaml::Timeline::output() {
     writer.WriteHeader();
 
     // Escribir todos los frames desde el Timeline
+    //tr1::shared_ptr<openshot::Frame> fr = out.GetFrame(130);
+
     writer.WriteFrame(&out, 1, duration * framerate.ToDouble());
     
     writer.WriteTrailer();

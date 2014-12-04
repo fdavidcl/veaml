@@ -8,7 +8,6 @@
 #define _VEAML_INSTANT
 
 #include <string>
-#include <iostream>
 
 namespace veaml {
   class Instant {
@@ -41,6 +40,7 @@ namespace veaml {
     int& cent() { return n_cent; }
 
     double to_f();
+    operator double() { return this->to_f(); }
   };
 }
 

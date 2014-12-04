@@ -80,7 +80,7 @@ comment     #(.*?)$
     current_timeline = static_cast<veaml::Timeline*>(current_mark);
     BEGIN(mark);
   } else if (mark_text == "%video") {
-    current_mark = new veaml::Video();
+    current_mark = new veaml::Video;
     BEGIN(mark);
   } else {
     std::cerr << "Error (línea " << lines << "): La marca " 
@@ -177,7 +177,7 @@ int assign_content() {
 
 int process_timeline() {
   if (!current_timeline->output()) {
-    std::cerr << "Error al procesar la salida. Compruebe que los archivos existen." << std::endl;
+    std::cerr << "Error al procesar la salida." << std::endl;
     return -3;
   }
 

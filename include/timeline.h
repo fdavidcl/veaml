@@ -21,11 +21,13 @@ namespace veaml {
     veaml::Resolution res;
     openshot::Fraction framerate;
     unsigned int audiorate = 44100;
+    //unsigned int audiorate = 48000;
     unsigned int channels = 2;
     std::string filename;
     std::string audiocodec;
     std::string videocodec;
 
+    double adjust_timing();
   public:
     Timeline(int width, int height);
     Timeline() :Timeline(0, 0) {}

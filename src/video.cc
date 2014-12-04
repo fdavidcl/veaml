@@ -14,18 +14,22 @@ void veaml::Video::set_resolution(openshot::Clip& content) {
     res = real;
   } else {
     content.scale = SCALE_FIT;
-    // Falta escalar el vídeo!!
+
+    if (res.width < 0) {
+      res.width = real.width / real.height * res.height;
+    } else if (res.height < 0) {
+      res.height = real.height / real.width * res.width;
+    }
+
+    content.scale_x.AddPoint(1, res.width / real.width);
+    content.scale_y.AddPoint(1, res.height / real.height);
   }
 }
 
 void veaml::Video::set_timing(openshot::Clip& content) {
-  content.Position(t_start.to_f());
-  content.Start(t_from.to_f());
-
-  if (t_to.to_f() > 0)
-    content.End(t_to.to_f());
-  else if (t_end.to_f() > 0)
-    content.End(t_from.to_f() + t_end.to_f() - t_start.to_f());
+  content.Position(t_start);
+  content.Start(t_from);
+  content.End(t_to);
 }
 
 bool veaml::Video::dispatch_add(veaml::Timeline& container) {
@@ -35,6 +39,7 @@ bool veaml::Video::dispatch_add(veaml::Timeline& container) {
 openshot::Clip veaml::Video::to_openshot() {
   openshot::Clip content(filename);
   content.Reader()->Open();
+  content.Layer(0);
 
   set_timing(content);
   set_resolution(content);
@@ -71,5 +76,5 @@ bool veaml::Video::set(veaml::attr_t attr, std::string value) {
 }
 
 double veaml::Video::duration() {
-  return t_to.to_f() - t_from.to_f();
+  return t_to - t_from;
 }

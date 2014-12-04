@@ -19,19 +19,27 @@ namespace veaml {
     std::string filename;
     veaml::Instant t_start;
     veaml::Instant t_end;
+    veaml::Instant t_from;
+    veaml::Instant t_to;
 
   public:
-    Clip(std::string file, Instant f, Instant t) 
-      :filename(file), t_start(f), t_end(t) {}
+    /*Clip(std::string file, Instant s, Instant e) 
+      :filename(file), t_start(s), t_end(e), t_from(0), t_to(-1) {}
     Clip(std::string file) 
-      :filename(file) {}
-    Clip() {}
+      :filename(file), t_start(-1), t_end(-1), t_from(0), t_to(-1) {}*/
+    Clip() :t_start(-1), t_end(-1), t_from(0), t_to(-1) {}
 
     const veaml::Instant& start() const { return t_start; }
     veaml::Instant& start() { return t_start; }
     
     const veaml::Instant& end() const { return t_end; }
     veaml::Instant& end() { return t_end; }
+
+    const veaml::Instant& from() const { return t_from; }
+    veaml::Instant& from() { return t_from; }
+    
+    const veaml::Instant& to() const { return t_to; }
+    veaml::Instant& to() { return t_to; }
 
     const std::string& file() const { return filename; }
     std::string& file() { return filename; }

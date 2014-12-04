@@ -46,8 +46,6 @@ veaml::Instant::Instant(std::string value) {
     n_sec = sto_i(value);
     n_cent = 0;
   }
-
-  std::cerr << "Instant " << n_min << "." << n_sec << "." << n_cent << std::endl;
 }
 
 double veaml::Instant::to_f() {
