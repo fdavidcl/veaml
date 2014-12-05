@@ -23,10 +23,6 @@ namespace veaml {
     veaml::Instant t_to;
 
   public:
-    /*Clip(std::string file, Instant s, Instant e) 
-      :filename(file), t_start(s), t_end(e), t_from(0), t_to(-1) {}
-    Clip(std::string file) 
-      :filename(file), t_start(-1), t_end(-1), t_from(0), t_to(-1) {}*/
     Clip() :t_start(-1), t_end(-1), t_from(0), t_to(-1) {}
 
     const veaml::Instant& start() const { return t_start; }

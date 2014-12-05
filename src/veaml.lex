@@ -12,6 +12,8 @@
 #include "clip.h"
 #include "timeline.h"
 #include "video.h"
+#include "image.h"
+#include "audio.h"
 
 int lines;
 veaml::Timeline * current_timeline;
@@ -79,9 +81,18 @@ comment     #(.*?)$
     current_mark = new veaml::Timeline();
     current_timeline = static_cast<veaml::Timeline*>(current_mark);
     BEGIN(mark);
+
+  // Aceptamos la marca video
   } else if (mark_text == "%video") {
     current_mark = new veaml::Video;
     BEGIN(mark);
+
+  // Aceptamos la marca audio
+  } else if (mark_text == "%audio") {
+    current_mark = new veaml::Audio;
+    BEGIN(mark);
+
+  // Marca no reconocida
   } else {
     std::cerr << "Error (línea " << lines << "): La marca " 
       << mark_text << " no es válida!" << std::endl;

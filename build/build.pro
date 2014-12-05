@@ -33,4 +33,6 @@ HEADERS += \
 SOURCES += \
   ../src/timeline.cc \
   ../src/instant.cc \
-  ../src/video.cc
+  ../src/video.cc \
+  ../src/image.cc \
+  ../src/audio.cc

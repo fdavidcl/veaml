@@ -1,7 +1,8 @@
 
 # Timeline es un contenedor que generará un único vídeo como salida
-%timeline{width: 1280, height: 720, videocodec: libvpx, audiocodec: libvorbis} out.webm
+#%timeline{width: 1280, height: 720, videocodec: libx264, audiocodec: ac3} out.mp4
+%timeline{width: 1280, height: 720, videocodec: libvpx, audiocodec: libvorbis} out.mkv
   # Cada marca Video se puede delimitar
-  %video{from: 5, to: .10, height: 800} okgo.webm
-  %video{from: .50, to: .64} okgo.webm
+  %video{from: 5, to: .10, width: 800, height: 480} video.mkv
+  %video{from: .50, to: .64} video.mkv
   

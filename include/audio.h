@@ -4,21 +4,18 @@
 
    Copyright (c) 2014, David Charte fdavidcl@outlook.com               */
 
-#ifndef _VEAML_VIDEO
-#define _VEAML_VIDEO
+#ifndef _VEAML_AUDIO
+#define _VEAML_AUDIO
 
 #include "clip.h"
 #include <string>
 
 namespace veaml {
-  class Video : public Clip {
+  class Audio : public Clip {
   private:
-    veaml::Resolution res;
-
     void set_timing(openshot::Clip& content);
-    void set_resolution(openshot::Clip& content);
   public:
-    Video() {}
+    Audio() {}
     
     double duration();
     bool dispatch_add(veaml::Timeline& container);
