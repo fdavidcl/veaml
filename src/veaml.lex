@@ -87,6 +87,11 @@ comment     #(.*?)$
     current_mark = new veaml::Video;
     BEGIN(mark);
 
+  // Aceptamos la marca image
+  } else if (mark_text == "%image") {
+    current_mark = new veaml::Image;
+    BEGIN(mark);
+
   // Aceptamos la marca audio
   } else if (mark_text == "%audio") {
     current_mark = new veaml::Audio;
