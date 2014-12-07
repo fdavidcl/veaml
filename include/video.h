@@ -14,11 +14,12 @@ namespace veaml {
   class Video : public Clip {
   private:
     veaml::Resolution res;
+    double volume;
 
     void set_timing(openshot::Clip& content);
     void set_resolution(openshot::Clip& content);
   public:
-    Video() {}
+    Video() :volume(1) {}
     
     double duration();
     bool dispatch_add(veaml::Timeline& container);

@@ -78,7 +78,7 @@ comment     #(.*?)$
         return proc;
     }
 
-    current_mark = new veaml::Timeline();
+    current_mark = new veaml::Timeline;
     current_timeline = static_cast<veaml::Timeline*>(current_mark);
     BEGIN(mark);
 

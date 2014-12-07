@@ -20,6 +20,7 @@ openshot::Clip veaml::Audio::to_openshot() {
   openshot::Clip content(filename);
   content.Reader()->Open();
   content.Layer(0);
+  content.volume.AddPoint(1, volume);
 
   set_timing(content);
 
@@ -39,6 +40,15 @@ bool veaml::Audio::set(veaml::attr_t attr, std::string value) {
       return true;
     case END:
       t_start = Instant(value);
+      return true;
+    case VOLUME:
+      volume = std::stod(value) / 100.0;
+
+      if (volume > 1)
+        volume = 1;
+      if (volume < 0)
+        volume = 0;
+      
       return true;
     case CONTENT:
       filename = value;

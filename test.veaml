@@ -1,8 +1,21 @@
 
 # Timeline es un contenedor que generará un único vídeo como salida
-#%timeline{width: 1280, height: 720, videocodec: libx264, audiocodec: ac3} out.mp4
-%timeline{width: 1280, height: 720, videocodec: libvpx, audiocodec: libvorbis} out.mkv
+#%timeline{width: 1280, height: 720, videocodec: libx264, audiocodec: libfaac} out.mp4
+
+%timeline{width: 1920, height: 1080, videocodec: libtheora, audiocodec: flac} new.mkv
   # Cada marca Video se puede delimitar
-  %video{from: 5, to: .10, width: 800, height: 480} video.mkv
-  %video{from: .50, to: .64} video.mkv
+  #%video{from: 0, to: 5, volume: 0} big_buck_bunny.ogg
+  #%video{from: 20, to: 30, volume: 0} video.mkv
+  %image{end: 1} images/11.jpg
+  %image{end: 2} images/12.jpg
+  %image{end: 3} images/13.jpg
+  %image{end: 4} images/14.jpg
+  %image{end: 5} images/15.jpg
+  %image{end: 6} images/16.jpg
+  %image{end: 7} images/17.jpg
+  %image{end: 8} images/18.jpg
+  %image{end: 9} images/19.jpg
+  %image{end: 10} images/20.jpg
+
+  %audio{start: 0, to: 10, volume: 100} icarus.flac
   

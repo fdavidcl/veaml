@@ -16,13 +16,13 @@ void veaml::Video::set_resolution(openshot::Clip& content) {
     content.scale = SCALE_FIT;
 
     if (res.width < 0) {
-      res.width = real.width / real.height * res.height;
+      res.width = real.width / (double)real.height * res.height;
     } else if (res.height < 0) {
-      res.height = real.height / real.width * res.width;
+      res.height = real.height / (double)real.width * res.width;
     }
 
-    content.scale_x.AddPoint(1, res.width / real.width);
-    content.scale_y.AddPoint(1, res.height / real.height);
+    content.scale_x.AddPoint(1, res.width / (double)real.width);
+    content.scale_y.AddPoint(1, res.height / (double)real.height);
   }
 }
 
@@ -40,6 +40,7 @@ openshot::Clip veaml::Video::to_openshot() {
   openshot::Clip content(filename);
   content.Reader()->Open();
   content.Layer(0);
+  content.volume.AddPoint(1, volume);
 
   set_timing(content);
   set_resolution(content);
@@ -66,6 +67,15 @@ bool veaml::Video::set(veaml::attr_t attr, std::string value) {
       return true;
     case END:
       t_start = Instant(value);
+      return true;
+    case VOLUME:
+      volume = std::stod(value) / 100.0;
+      
+      if (volume > 1)
+        volume = 1;
+      if (volume < 0)
+        volume = 0;
+
       return true;
     case CONTENT:
       filename = value;

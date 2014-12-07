@@ -25,9 +25,15 @@ namespace veaml {
     TOP,
     LEFT,
 
+    /* Audio-related attributes     *
+     * (for audio and video)        */
+    VOLUME,
+
     /* Codec attributes for timeline */
     ACODEC,
     VCODEC,
+    SRATE,
+    FPS,
 
     CONTENT
   };
@@ -43,8 +49,12 @@ namespace veaml {
     "top",
     "left",
 
+    "volume",
+
     "audiocodec",
-    "videocodec"
+    "videocodec",
+    "samplerate",
+    "fps"
   };
 
   class Mark {

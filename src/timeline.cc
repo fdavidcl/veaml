@@ -25,6 +25,12 @@ bool veaml::Timeline::set(attr_t attr, std::string value) {
     case VCODEC:
       videocodec = value;
       return true;
+    case SRATE:
+      audiorate = std::stoi(value);
+      return true;
+    case FPS:
+      framerate = openshot::Fraction(std::stoi(value), 1);
+      return true;
     case CONTENT:
       filename = value;
       return true;
@@ -84,8 +90,6 @@ bool veaml::Timeline::output() {
       out.AddClip(vid);
     }
 
-    std::cerr << "Tenemos " << out.Clips().size() << " clips." << std::endl;
-
     out.Open();
 
     openshot::FFmpegWriter writer(filename);
@@ -103,8 +107,8 @@ bool veaml::Timeline::output() {
       videocodec,              // String for video codec
       framerate,               // fps (25/1)
       res.width, res.height,   // resolution
-      openshot::Fraction(5,4), // pixel ratio
-      true, false,            // interlaced, top_field_first
+      openshot::Fraction(1,1), // pixel ratio
+      false, false,            // interlaced, top_field_first
       2000000                  // bitrate
     );
 

@@ -18,14 +18,13 @@ namespace veaml {
   class Timeline : public Mark {
   private:
     std::vector<veaml::Clip*> tl;
-    veaml::Resolution res;
+    veaml::Resolution res = {1280, 720};
     openshot::Fraction framerate;
     unsigned int audiorate = 44100;
-    //unsigned int audiorate = 48000;
     unsigned int channels = 2;
     std::string filename;
-    std::string audiocodec;
-    std::string videocodec;
+    std::string audiocodec = "flac";
+    std::string videocodec = "libtheora";
 
     double adjust_timing();
   public:

@@ -16,13 +16,13 @@ void veaml::Image::set_resolution(openshot::Clip& content) {
     content.scale = SCALE_FIT;
 
     if (res.width < 0) {
-      res.width = real.width / real.height * res.height;
+      res.width = real.width / (double)real.height * res.height;
     } else if (res.height < 0) {
-      res.height = real.height / real.width * res.width;
+      res.height = real.height / (double)real.width * res.width;
     }
 
-    content.scale_x.AddPoint(1, res.width / real.width);
-    content.scale_y.AddPoint(1, res.height / real.height);
+    content.scale_x.AddPoint(1, res.width / (double)real.width);
+    content.scale_y.AddPoint(1, res.height / (double)real.height);
   }
 }
 

@@ -13,6 +13,8 @@
 namespace veaml {
   class Audio : public Clip {
   private:
+    double volume;
+
     void set_timing(openshot::Clip& content);
   public:
     Audio() {}
