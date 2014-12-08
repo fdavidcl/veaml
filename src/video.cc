@@ -39,7 +39,7 @@ bool veaml::Video::dispatch_add(veaml::Timeline& container) {
 openshot::Clip veaml::Video::to_openshot() {
   openshot::Clip content(filename);
   content.Reader()->Open();
-  content.Layer(0);
+  content.Layer(1);
   content.volume.AddPoint(1, volume);
 
   set_timing(content);
