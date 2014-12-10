@@ -1,10 +1,14 @@
 
-# Timeline es un contenedor que generará un único vídeo como salida
+/ Timeline es un contenedor que generará un único vídeo como salida
 
-%timeline{width: 1280, height: 720, videocodec: libtheora, audiocodec: flac} surface.mkv
-  # Cada marca se puede delimitar
-  %video{from: 7, to: 10, volume: 0} surface.mp4
-  %video{from: 12, to: 15, volume: 0} surface.mp4
-
-  %audio{start: 0, to: 12, volume: 90} icarus.flac
+%timeline{width: 1280, height: 720, videocodec: libx264, audiocodec: flac, fps: 24, samplerate: 44100} time.mp4
+  / Cada marca se puede delimitar
+  %video{from:  .1.70, to:     .4, volume: 0} surface.mp4
+  %video{from:  .7.50, to:     .8, volume: 0} surface.mp4
+  %video{from:    .23, to:    .24, volume: 0} surface.mp4
+  %video{from: .27.02, to: .27.52, volume: 0} surface.mp4
+  %video{from: .28.70, to:    .29, volume: 0} surface.mp4
+  %video{from:    .42, to: .42.90, volume: 0} surface.mp4
+  %video{from: .46.01, to: .47.11, volume: 0} surface.mp4
   
+  %audio{from:    .15, to: .21.50, start:  0} srfc.aac

@@ -52,7 +52,7 @@ attrend     \}{blanks}?
 
 content     [^%#\n\ \t][^#\n]*
 
-comment     #(.*?)$
+comment     \/(.*?)$
 
 %%
 
@@ -120,6 +120,12 @@ comment     #(.*?)$
       current_attr = static_cast<veaml::attr_t>(i);
     }
 
+  if (!found) {
+    std::cerr << "Error (línea " << lines << "): No existe el atributo " 
+      << cur_attr << std::endl;
+    return -1;
+  }
+
   BEGIN(expect_colon);
 }
 
@@ -129,8 +135,11 @@ comment     #(.*?)$
 
 <expect_value>{attrvalue} {
   if (current_mark != 0) {
-    if (current_mark->set(current_attr, std::string(yytext)))
-      std::cerr << "Añadido atributo con valor -" << yytext << "-." << std::endl;
+    if (!(current_mark->set(current_attr, std::string(yytext)))) {
+      std::cerr << "Error (línea " << lines << "): La marca actual no acepta el atributo " 
+        << veaml::attr_names[(int)current_attr];
+      return -1;
+    }
   }
 
   BEGIN(end_attr);
@@ -156,7 +165,7 @@ comment     #(.*?)$
   current_content += yytext;
 }
 
-<newline><<EOF>> {
+<<EOF>> {
   int fin = assign_content();
 
   if (fin != 0)
@@ -205,7 +214,8 @@ int main(int argc, char* argv[]) {
     yyin = fopen(argv[1], "rt");
 
     if (!yyin) {
-      std::cout << "El archivo " << argv[1] << " no se puede abrir." << std::endl;
+      std::cerr << "El archivo " << argv[1] << " no se puede abrir." << std::endl;
+      return 1;
     }
   }
 

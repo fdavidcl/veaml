@@ -39,10 +39,15 @@ bool veaml::Image::dispatch_add(veaml::Timeline& container) {
 openshot::Clip veaml::Image::to_openshot() {
   openshot::Clip content(filename);
   content.Reader()->Open();
-  content.Layer(0);
+  content.Layer(1);
 
   set_timing(content);
   set_resolution(content);
+  
+  std::cout << "Añadiendo imagen " << filename << " a resolución "
+    << res.width << "x" << res.height << ", comenzando en "
+    << t_start << " desde " << t_from << " hasta " << t_to
+    << std::endl << std::endl;
 
   return content;
 }

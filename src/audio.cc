@@ -19,10 +19,15 @@ bool veaml::Audio::dispatch_add(veaml::Timeline& container) {
 openshot::Clip veaml::Audio::to_openshot() {
   openshot::Clip content(filename);
   content.Reader()->Open();
+  dynamic_cast<FFmpegReader*>(content.Reader())->enable_seek = true;
   content.Layer(0);
   content.volume.AddPoint(1, volume);
 
   set_timing(content);
+
+  std::cout << "Añadiendo audio " << filename << ", comenzando en "
+    << t_start << " desde " << t_from << " hasta " << t_to
+    << " y con volumen " << volume << std::endl << std::endl;
 
   return content;
 }

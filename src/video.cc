@@ -6,6 +6,8 @@
 
 #include "video.h"
 
+int veaml::Video::layers = 1;
+
 void veaml::Video::set_resolution(openshot::Clip& content) {
   tr1::shared_ptr<openshot::Frame> first = content.GetFrame(1);
   veaml::Resolution real(first->GetWidth(), first->GetHeight());
@@ -39,11 +41,16 @@ bool veaml::Video::dispatch_add(veaml::Timeline& container) {
 openshot::Clip veaml::Video::to_openshot() {
   openshot::Clip content(filename);
   content.Reader()->Open();
-  content.Layer(1);
+  content.Layer(layers++);
   content.volume.AddPoint(1, volume);
 
   set_timing(content);
   set_resolution(content);
+  
+  std::cout << "Añadiendo vídeo " << filename << " a resolución "
+    << res.width << "x" << res.height << ", comenzando en "
+    << t_start << " desde " << t_from << " hasta " << t_to
+    << " y con volumen " << volume << std::endl << std::endl;
 
   return content;
 }

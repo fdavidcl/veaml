@@ -15,6 +15,7 @@ namespace veaml {
   private:
     veaml::Resolution res;
     double volume;
+    static int layers;
 
     void set_timing(openshot::Clip& content);
     void set_resolution(openshot::Clip& content);

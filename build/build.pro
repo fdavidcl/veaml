@@ -4,7 +4,8 @@ TEMPLATE = app
 TARGET = ../bin/veaml
 QT += widgets
 CONFIG += c++11
-QMAKE_CXXFLAGS += -fopenmp
+QMAKE_CXXFLAGS_DEBUG += -fopenmp
+QMAKE_CXXFLAGS_RELEASE += -fopenmp
 
 INCLUDEPATH += . \
   ../include \
@@ -19,9 +20,12 @@ INCLUDEPATH += . \
   "/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64" \
   "/usr/include/qt5/QtCore"
 
-LIBS += -L/usr/local/lib/libopenshot \
-  -L/usr/local/lib/libopenshot-audio \
-  -lopenshot -lopenshot-audio -lfl -lrt -std=c++11
+LIBS += \
+  -L$(HOME)/ffmpeg_build/lib \
+  -L/usr/local/lib/ \
+  -lopenshot -lopenshot-audio -lfl -lrt -std=c++11 -Wl,-Bsymbolic \
+  -lvorbis -lmp3lame -lfaac -lfdk-aac -lvpx -lx264 -llzma -lvorbisenc \
+  -lswscale -lswresample -ltheora -ltheoraenc -ltheoradec `Magick++-config --ldflags`
 
 # Flex/Lex
 FLEXSOURCES += ../src/veaml.lex

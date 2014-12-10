@@ -19,8 +19,10 @@ namespace veaml {
   private:
     std::vector<veaml::Clip*> tl;
     veaml::Resolution res = {1280, 720};
-    openshot::Fraction framerate;
+    unsigned int framerate = 25;
     unsigned int audiorate = 44100;
+    unsigned int aubitrate = 256000;
+    unsigned int vidbitrate = 2000000;
     unsigned int channels = 2;
     std::string filename;
     std::string audiocodec = "flac";

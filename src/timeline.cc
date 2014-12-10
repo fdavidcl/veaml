@@ -9,7 +9,7 @@
 #include "timeline.h"
 
 veaml::Timeline::Timeline(int width, int height)
-  :res(width, height), framerate(25, 1) { }
+  :res(width, height) { }
 
 bool veaml::Timeline::set(attr_t attr, std::string value) {
   switch (attr) {
@@ -29,7 +29,7 @@ bool veaml::Timeline::set(attr_t attr, std::string value) {
       audiorate = std::stoi(value);
       return true;
     case FPS:
-      framerate = openshot::Fraction(std::stoi(value), 1);
+      framerate = std::stoi(value);
       return true;
     case CONTENT:
       filename = value;
@@ -47,28 +47,28 @@ bool veaml::Timeline::add(veaml::Clip& v) {
 double veaml::Timeline::adjust_timing() {
   Instant duration = 0;
 
-  for (std::vector<veaml::Clip*>::iterator i = tl.begin(); i != tl.end(); ++i) {
+  for (auto& cl : tl) {
     // from, to -> relativos al clip.
     // start, end -> relativos al timeline.
 
     // Ajustar los comienzos de cada vídeo si no están puestos manualmente
-    if ((*i)->start() < 0)
-      (*i)->start() = duration;
+    if (cl->start() < 0)
+      cl->start() = duration;
 
     // Calcular el final del vídeo
-    if ((*i)->to() < 0) {
-      if ((*i)->end() < 0) {
-        (*i)->to() = (*i)->to_openshot().End();
-        (*i)->end() = (*i)->start() + (*i)->duration();
+    if (cl->to() < 0) {
+      if (cl->end() < 0) {
+        cl->to() = cl->to_openshot().End();
+        cl->end() = cl->start() + cl->duration();
       } else {
-        (*i)->to() = (*i)->end() - (*i)->start();
+        cl->to() = cl->end() - cl->start();
       }
     } else {
-      (*i)->end() = (*i)->start() + (*i)->duration();
+      cl->end() = cl->start() + cl->duration();
     }
 
-    if ((*i)->end().to_f() >= duration.to_f())
-      duration = (*i)->end();
+    if (cl->end().to_f() >= duration.to_f())
+      duration = cl->end();
   }
 
   return duration;
@@ -78,15 +78,20 @@ bool veaml::Timeline::output() {
   double duration = adjust_timing();
 
   try {
-    // Comprobación de parámetros!!
+    openshot::Timeline out(
+      res.width, 
+      res.height, 
+      openshot::Fraction(framerate, 1), 
+      audiorate, 
+      channels
+    );
 
-    openshot::Timeline out(res.width, res.height, framerate, audiorate, channels);
-    std::cerr << "Procesado vídeo. Duración: " << duration << std::endl;
+    std::cout << "Construyendo Timeline. Duración total: " << duration
+      << ". Tendremos un framerate de " << framerate << "fps y sample rate"
+      << audiorate << "." << std::endl;
 
-    for (std::vector<veaml::Clip*>::iterator i = tl.begin(); i != tl.end(); ++i) {
-      std::cerr << "Añadiendo vídeo " << (*i)->file() << std::endl; 
-      openshot::Clip* vid = new openshot::Clip((*i)->to_openshot());
-
+    for (auto& cl : tl) {
+      openshot::Clip* vid = new openshot::Clip(cl->to_openshot());
       out.AddClip(vid);
     }
 
@@ -94,31 +99,33 @@ bool veaml::Timeline::output() {
 
     openshot::FFmpegWriter writer(filename);
 
+    writer.OutputStreamInfo();
+
     writer.SetAudioOptions(
       true,                    // has audio?
       audiocodec,              // string for audio codec
       audiorate,               // audio sample rate
       channels,                // channels (2 for stereo)
-      512000                   // bitrate
+      aubitrate                // bitrate
     );
+
+    // writer.ResampleAudio(44100, 2);
     
     writer.SetVideoOptions(
       true,                    // has video? 
       videocodec,              // String for video codec
-      framerate,               // fps (25/1)
+      openshot::Fraction(framerate, 1),      // fps
       res.width, res.height,   // resolution
       openshot::Fraction(1,1), // pixel ratio
       false, false,            // interlaced, top_field_first
-      2000000                  // bitrate
+      vidbitrate               // bitrate
     );
 
     writer.PrepareStreams();
     writer.WriteHeader();
 
     // Escribir todos los frames desde el Timeline
-    //tr1::shared_ptr<openshot::Frame> fr = out.GetFrame(130);
-
-    writer.WriteFrame(&out, 1, duration * framerate.ToDouble());
+    writer.WriteFrame(&out, 1, duration * framerate);
     
     writer.WriteTrailer();
     writer.Close();
@@ -126,8 +133,16 @@ bool veaml::Timeline::output() {
     out.Close();
 
     return true;
-  } catch(BaseException ex) {
-    std::cout << "Error al procesar el vídeo: " << ex.what() << std::endl;
+  } catch(OutOfBoundsFrame& ex) {
+    std::cerr << "Error: Marco fuera de límites (límite " << ex.MaxFrames 
+      << ", se solicitó " << ex.FrameRequested << ")." << std::endl;
+    return false;
+  } catch(InvalidCodec& ex) {
+    std::cerr << "Error al procesar el vídeo: " << ex.what() << " (archivo " 
+      << ex.file_path << ")." << std::endl;
+    return false;
+  } catch(BaseException& ex) {
+    std::cerr << "Error al procesar el vídeo: " << ex.what() << std::endl;
     return false;
   }
 }
