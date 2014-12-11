@@ -21,7 +21,7 @@
   </head>
   <body>
     <div class="header">
-      <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
+      <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal">
         <a class="pure-menu-heading" href="">veaml</a>
 
         <ul>
