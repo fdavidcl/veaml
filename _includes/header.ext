@@ -1,6 +1,6 @@
 <div class="header">
   <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal">
-    <a class="pure-menu-heading" href="">veaml</a>
+    <a class="pure-menu-heading" href="/veaml">veaml</a>
 
     <ul>
       <li><a href="/veaml">Inicio</a></li>
