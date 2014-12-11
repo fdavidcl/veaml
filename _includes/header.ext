@@ -1,37 +1,11 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Veaml. A markup language for video editing.">
+<div class="header">
+  <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal">
+    <a class="pure-menu-heading" href="">veaml</a>
 
-    <title>Veaml</title>
-
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,400italic,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">  
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
-    <!--<![endif]-->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css">
-    <link rel="stylesheet" href="/veaml/css/layouts/main.css">
-  </head>
-  <body>
-    <div class="header">
-      <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal">
-        <a class="pure-menu-heading" href="">veaml</a>
-
-        <ul>
-          <li><a href="/veaml">Inicio</a></li>
-          <li><a href="/veaml/docs">Documentación</a></li>
-          <li><a href="https://github.com/fdavidcl/veaml/releases">Descargas</a></li>
-        </ul>
-      </div>
-    </div>
-
-    {{ content }}
-  </body>
-</html>
+    <ul>
+      <li><a href="/veaml">Inicio</a></li>
+      <li><a href="/veaml/docs">Documentación</a></li>
+      <li><a href="https://github.com/fdavidcl/veaml/releases">Descargas</a></li>
+    </ul>
+  </div>
+</div>
