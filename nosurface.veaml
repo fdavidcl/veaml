@@ -1,7 +1,8 @@
+#!/home/fdavidcl/veaml/bin/veaml
 
 / Timeline es un contenedor que generará un único vídeo como salida
 
-%timeline{width: 1280, height: 720, videocodec: libx264, audiocodec: flac, fps: 24, samplerate: 44100} time.mp4
+%timeline{width: 1920, height: 1080, videocodec: libx264, audiocodec: libfaac, fps: 24} srfc.mp4
   / Cada marca se puede delimitar
   %video{from:  .1.70, to:     .4, volume: 0} surface.mp4
   %video{from:  .7.50, to:     .8, volume: 0} surface.mp4
@@ -10,5 +11,5 @@
   %video{from: .28.70, to:    .29, volume: 0} surface.mp4
   %video{from:    .42, to: .42.90, volume: 0} surface.mp4
   %video{from: .46.01, to: .47.11, volume: 0} surface.mp4
-  
+
   %audio{from:    .15, to: .21.50, start:  0} srfc.aac

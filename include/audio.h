@@ -13,7 +13,7 @@
 namespace veaml {
   class Audio : public Clip {
   private:
-    double volume;
+    double volume = 1;
 
     void set_timing(openshot::Clip& content);
   public:
@@ -22,7 +22,7 @@ namespace veaml {
     double duration();
     bool dispatch_add(veaml::Timeline& container);
     bool set(attr_t attr, std::string value);
-    openshot::Clip to_openshot();
+    openshot::Clip to_openshot(int canvas_x, int canvas_y);
   };
 }
 

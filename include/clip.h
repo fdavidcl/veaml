@@ -17,6 +17,7 @@ namespace veaml {
   class Clip : public Mark {
   protected:
     std::string filename;
+    std::string decoder;
     veaml::Instant t_start;
     veaml::Instant t_end;
     veaml::Instant t_from;
@@ -43,7 +44,7 @@ namespace veaml {
     virtual double duration() = 0;
     virtual bool dispatch_add(veaml::Timeline& container) = 0;
     virtual bool set(attr_t attr, std::string value) = 0;
-    virtual openshot::Clip to_openshot() = 0;
+    virtual openshot::Clip to_openshot(int canvas_x = 0, int canvas_y = 0) = 0;
   };
 }
 

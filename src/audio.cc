@@ -16,17 +16,21 @@ bool veaml::Audio::dispatch_add(veaml::Timeline& container) {
   return container.add(*this);
 }
 
-openshot::Clip veaml::Audio::to_openshot() {
+openshot::Clip veaml::Audio::to_openshot(int canvas_x, int canvas_y) {
   openshot::Clip content(filename);
   content.Reader()->Open();
-  dynamic_cast<FFmpegReader*>(content.Reader())->enable_seek = true;
+  
+  if (decoder.length() > 0)
+    content.Reader()->info.acodec = decoder;
+
   content.Layer(0);
   content.volume.AddPoint(1, volume);
 
   set_timing(content);
 
-  std::cout << "Añadiendo audio " << filename << ", comenzando en "
-    << t_start << " desde " << t_from << " hasta " << t_to
+  std::cout << "Añadiendo audio " << filename << " decodificado por "
+    << content.Reader()->info.acodec << std::endl << " comenzando en "
+    << t_start << " desde " << t_from << " hasta " << t_to << std::endl
     << " y con volumen " << volume << std::endl << std::endl;
 
   return content;
@@ -54,6 +58,9 @@ bool veaml::Audio::set(veaml::attr_t attr, std::string value) {
       if (volume < 0)
         volume = 0;
       
+      return true;
+    case CODEC:
+      decoder = value;
       return true;
     case CONTENT:
       filename = value;

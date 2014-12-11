@@ -87,11 +87,11 @@ bool veaml::Timeline::output() {
     );
 
     std::cout << "Construyendo Timeline. Duración total: " << duration
-      << ". Tendremos un framerate de " << framerate << "fps y sample rate"
-      << audiorate << "." << std::endl;
+      << std::endl << " Tendremos un framerate de " << framerate << "fps y sample rate "
+      << audiorate << "." << std::endl << std::endl;
 
     for (auto& cl : tl) {
-      openshot::Clip* vid = new openshot::Clip(cl->to_openshot());
+      openshot::Clip* vid = new openshot::Clip(cl->to_openshot(res.width, res.height));
       out.AddClip(vid);
     }
 

@@ -1,0 +1,10 @@
+#!/home/fdavidcl/veaml/bin/veaml
+
+%timeline{width: 1920, height: 1080, videocodec: libx264, audiocodec: libfaac, fps: 24} positioning.mp4
+  %video{from:  .1.70, to:     .4, volume: 0} surface.mp4
+  %video{from:  .7.50, to:  .8.50, volume: 0, width: 800, top: 30, left: 30} surface.mp4
+  %video{from:    .23, to:    .24, volume: 0, width: 800, top: 300, left: 1000, start: .2.30} surface.mp4
+  %video{from: .27.02, to: .27.52, volume: 0} surface.mp4
+  / %video{from: .28.70, to:    .29, volume: 0} surface.mp4
+  / %video{from:    .42, to: .42.90, volume: 0} surface.mp4
+  / %video{from: .46.01, to: .47.11, volume: 0} surface.mp4

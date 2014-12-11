@@ -46,7 +46,7 @@ mark        %{low}+
 attrbegin   \{
 attr        {low}+
 colon       {blanks}?:{blanks}?
-attrvalue   ({alpha}|_|\-)+|{time}
+attrvalue   ({alpha}|_|\-)+|{time}|(\-|\+)?[0-9]+
 comma       {blanks}?,{blanks}?
 attrend     \}{blanks}?
 
@@ -58,6 +58,8 @@ comment     \/(.*?)$
 
   /* Comenzar líneas */
 <INITIAL,newline>{blanks} {;}
+  /* Ignoramos marca del intérprete */
+<INITIAL,newline>#!               {;}
 
   /* Detectamos una marca */
 <INITIAL,newline>{mark} {

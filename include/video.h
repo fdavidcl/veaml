@@ -14,18 +14,20 @@ namespace veaml {
   class Video : public Clip {
   private:
     veaml::Resolution res;
+    veaml::Resolution pos;
     double volume;
     static int layers;
 
     void set_timing(openshot::Clip& content);
-    void set_resolution(openshot::Clip& content);
+    void set_position(openshot::Clip& content, int canvas_x, int canvas_y);
+    void set_resolution(openshot::Clip& content, int canvas_x, int canvas_y);
   public:
-    Video() :volume(1) {}
+    Video() :pos(0,0), volume(1)  {}
     
     double duration();
     bool dispatch_add(veaml::Timeline& container);
     bool set(attr_t attr, std::string value);
-    openshot::Clip to_openshot();
+    openshot::Clip to_openshot(int canvas_x, int canvas_y);
   };
 }
 

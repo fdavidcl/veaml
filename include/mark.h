@@ -28,6 +28,7 @@ namespace veaml {
     /* Audio-related attributes     *
      * (for audio and video)        */
     VOLUME,
+    CODEC,
 
     /* Codec attributes for timeline */
     ACODEC,
@@ -50,6 +51,7 @@ namespace veaml {
     "left",
 
     "volume",
+    "codec",
 
     "audiocodec",
     "videocodec",
