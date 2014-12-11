@@ -141,7 +141,7 @@ a.pure-button-primary {
   overflow: hidden;
   /* The following styles are required for the "scroll-over" effect */
   width: 100%;
-  max-height: 88%;
+  max-height: 80%;
   margin: 0;
 }
 
@@ -166,7 +166,6 @@ a.pure-button-primary {
   line-height: 1em;
   max-width: 664px;
   margin: auto;
-  margin-top: 8em;
 }
 
 /* This is the subheading that appears on the blue section */
@@ -269,7 +268,6 @@ a.pure-button-primary {
 
   .splash-head {
     font-size: 150%;
-    margin-top: 8em;
   }
 
 
@@ -289,6 +287,5 @@ a.pure-button-primary {
   /* We increase the header font size even more */
   .splash-head {
     font-size: 150%;
-    margin-top: 3em;
   }
 }
