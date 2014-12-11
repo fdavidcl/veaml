@@ -225,6 +225,10 @@ a.pure-button-primary {
   color: #82B0CC;
 }
 
+:not(pre)>code {
+  color: #334550;
+}
+
 /* This is the class used for the footer */
 .footer {
   background: #111;
