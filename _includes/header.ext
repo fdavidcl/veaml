@@ -25,9 +25,9 @@
         <a class="pure-menu-heading" href="">veaml</a>
 
         <ul>
-          <li><a href="/">Inicio</a></li>
-          <li><a href="/docs">Documentación</a></li>
-          <li><a href="/download">Descargas</a></li>
+          <li><a href="/veaml">Inicio</a></li>
+          <li><a href="/veaml/docs">Documentación</a></li>
+          <li><a href="https://github.com/fdavidcl/veaml/releases">Descargas</a></li>
         </ul>
       </div>
     </div>
