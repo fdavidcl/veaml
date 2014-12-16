@@ -3,9 +3,10 @@
     <a class="pure-menu-heading" href="/veaml">veaml</a>
 
     <ul>
-      <li><a href="/veaml">Inicio</a></li>
-      <li><a href="/veaml/docs">Documentación</a></li>
-      <li><a href="https://github.com/fdavidcl/veaml/releases">Descargas</a></li>
+      <li><a href="/veaml">Home</a></li>
+      <li><a href="/veaml/docs">Docs</a></li>
+      <li><a href="https://github.com/fdavidcl/veaml/releases">Downloads</a></li>
+      <li><a href="/veaml/es">ES</a></li>
     </ul>
   </div>
 </div>

@@ -1,0 +1,100 @@
+---
+layout: default_es
+permalink: /docs/
+title: "Documentación"
+---
+
+<div class="content-wrapper">
+  <div class="content">
+    <h2 class="content-head is-center">¿Cómo escribir Veaml?</h2>
+
+    <div class="pure-g">
+      <div class="l-box pure-u-1 pure-u-md-1 pure-u-lg-1">
+
+        Componer un archivo Veaml es muy sencillo. Para ello, basta con utilizar nuestro
+        editor de texto favorito y utilizar las marcas que forman el lenguaje. A
+        continuación un ejemplo:
+
+        <pre><code class="haml">
+          / Timeline es un contenedor que generará un único vídeo como salida
+
+          %timeline{width: 1920, height: 1080, videocodec: libx264, audiocodec: libfaac, fps: 24} srfc.mp4
+            / Cada marca se puede delimitar
+            %video{from:  .1.70, to:     .4, volume: 0} surface.mp4
+            %video{from:  .7.50, to:     .8, volume: 0} surface.mp4
+            %video{from:    .23, to:    .24, volume: 0} surface.mp4
+            %video{from:    .27, to: .27.50, volume: 0} surface.mp4
+            %video{from: .28.70, to:    .29, volume: 0} surface.mp4
+            %video{from:    .42, to: .42.90, volume: 0} surface.mp4
+            %video{from:    .46, to: .47.10, volume: 0} surface.mp4
+
+            %audio{from:    .15, to: .21.50, start:  0} srfc.aac
+        </code></pre>
+      </div>
+
+      <div class="l-box pure-u-1 pure-u-md-1 pure-u-lg-1-2">
+        <h3 class="content-subhead">Timeline</h3>
+
+        La primera marca de un archivo Veaml será siempre <code>%timeline</code>, que servirá para
+        especificar los detalles de la salida que queremos: ancho y alto, nombre del 
+        archivo y datos sobre los códecs. Los atributos que acepta <code>%timeline</code> son: 
+
+        <ul>
+          <li><code>width</code>: Especifica el ancho</li>
+          <li><code>height</code>: Especifica el alto</li>
+          <li><code>audiocodec</code>: El codificador para la salida de audio (por ejemplo, <code>libfaac</code>, <code>flac</code> o <code>libmp3lame</code>)</li>
+          <li><code>videocodec</code>: El codificador para la salida de vídeo (por ejemplo, <code>libx264</code>, <code>libtheora</code> o <code>libvpx</code>)</li>
+          <li><code>fps</code>: El número de frames por segundo (por defecto 25)</li>
+          <li><code>samplerate</code>: El <em>sample rate</em> para el audio (por defecto 44100)</li>
+        </ul>
+
+        <p>Tras indicar un <code>%timeline</code> se pueden añadir las marcas <code>%audio</code>, <code>%video</code> e <code>%image</code> deseadas, que conformarán el vídeo resultante. En un mismo archivo Veaml puede haber varios timelines.</p>
+      </div>
+
+      <div class="l-box pure-u-1 pure-u-md-1 pure-u-lg-1-2">
+        <h3 class="content-subhead">Vídeo</h3>
+        <p>La marca <code>%video</code> acepta los atributos:</p>
+        <ul>
+          <li><code>width</code>: Especifica el ancho</li>
+          <li><code>height</code>: Especifica el alto</li>
+          <li><code>top</code>: Especifica la posición desde el borde superior</li>
+          <li><code>left</code>: Especifica la posición desde el borde izquierdo</li>
+          <li><code>from</code>: Especifica el punto temporal del vídeo desde el que se incluirá</li>
+          <li><code>to</code>: El punto temporal del vídeo hasta el que se incluirá</li>
+          <li><code>start</code>: La posición temporal del timeline en la que comenzará el vídeo</li>
+          <li><code>end</code>: La posición temporal del timeline en la que terminará el vídeo</li>
+          <li><code>codec</code>: El decodificador para la entrada de vídeo</li>
+          <li><code>volume</code>: El volumen, de 0 a 100 (por defecto 100)</li>
+        </ul>
+        <p>Por defecto los clips añadidos se incluirán de forma secuencial, es decir, se comenzará a reproducir cada clip cuando termine el anterior. Para modificar este comportamiento recurrimos a los atributos <code>start</code>, <code>end</code>.</p>
+      </div>
+
+      <div class="l-box pure-u-1 pure-u-md-1 pure-u-lg-1-2">
+        <h3 class="content-subhead">Audio</h3>
+        <p>La marca <code>%audio</code> acepta los atributos:</p>
+        <ul>
+          <li><code>from</code>: Especifica el punto temporal del audio desde el que se incluirá</li>
+          <li><code>to</code>: El punto temporal del audio hasta el que se incluirá</li>
+          <li><code>start</code>: La posición temporal del timeline en la que comenzará el audio</li>
+          <li><code>end</code>: La posición temporal del timeline en la que terminará el audio</li>
+          <li><code>codec</code>: El decodificador para la entrada de audio</li>
+          <li><code>volume</code>: El volumen, de 0 a 100 (por defecto 100)</li>
+        </ul>
+      </div>
+
+      <div class="l-box pure-u-1 pure-u-md-1 pure-u-lg-1-2">
+        <h3 class="content-subhead">Imagen</h3>
+        <p>La marca <code>%image</code> acepta los atributos:</p>
+        <ul>
+          <li><code>width</code>: Especifica el ancho</li>
+          <li><code>height</code>: Especifica el alto</li>
+          <li><code>top</code>: Especifica la posición desde el borde superior</li>
+          <li><code>left</code>: Especifica la posición desde el borde izquierdo</li>
+          <li><code>to</code>: Duración de la imagen en pantalla</li>
+          <li><code>start</code>: La posición temporal del timeline en la que comenzará a verse</li>
+          <li><code>end</code>: La posición temporal del timeline en la que terminará de verse</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+ </div>
