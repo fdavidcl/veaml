@@ -225,6 +225,10 @@ a.pure-button-primary {
   color: #82B0CC;
 }
 
+pre {
+  white-space: pre;
+  overflow: auto;
+}
 :not(pre)>code {
   color: #2B5F7F;
 }
