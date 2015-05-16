@@ -99,8 +99,6 @@ a.pure-button-primary {
 .home-menu {
   padding: 1em 2em;
   text-align: center;
-}
-.home-menu.pure-menu-open {
   background: #334550;
   /* Fixed menus normally have a border at the bottom. */
   border-bottom: none;
@@ -260,7 +258,7 @@ pre {
     text-align: left;
   }
     .home-menu ul {
-      float: right;
+      margin-left: 1.2em;
     }
 
   /* We increase the height of the splash-container */

@@ -1,12 +1,12 @@
 <div class="header">
-  <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal">
+  <div class="home-menu pure-menu pure-menu-horizontal">
     <a class="pure-menu-heading" href="/veaml">veaml</a>
 
-    <ul>
-      <li><a href="/veaml/es">Inicio</a></li>
-      <li><a href="/veaml/es/docs">Documentación</a></li>
-      <li><a href="https://github.com/fdavidcl/veaml/releases">Descargas</a></li>
-      <li><a href="/veaml">EN</a></li>
+    <ul class="pure-menu-list">
+      <li class="pure-menu-item"><a class="pure-menu-link" href="/veaml/es">Inicio</a></li>
+      <li class="pure-menu-item"><a class="pure-menu-link" href="/veaml/es/docs">Documentación</a></li>
+      <li class="pure-menu-item"><a class="pure-menu-link" href="https://github.com/fdavidcl/veaml/releases">Descargas</a></li>
+      <li class="pure-menu-item"><a class="pure-menu-link" href="/veaml">EN</a></li>
     </ul>
   </div>
 </div>
