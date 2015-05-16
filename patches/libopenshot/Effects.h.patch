@@ -1,0 +1,10 @@
+32,35c32,35
+< #include "effects/ChromaKey.h"
+< #include "effects/Deinterlace.h"
+< #include "effects/Mask.h"
+< #include "effects/Negate.h"
+---
+> #include "ChromaKey.h"
+> #include "Deinterlace.h"
+> #include "Mask.h"
+> #include "Negate.h"
