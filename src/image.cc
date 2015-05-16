@@ -6,7 +6,7 @@
 
 #include "image.h"
 
-void veaml::Video::set_resolution(openshot::Clip& content, int canvas_x, int canvas_y) {
+void veaml::Image::set_resolution(openshot::Clip& content, int canvas_x, int canvas_y) {
   tr1::shared_ptr<openshot::Frame> first = content.GetFrame(1);
   veaml::Resolution real(first->GetWidth(), first->GetHeight());
   
@@ -27,7 +27,7 @@ void veaml::Video::set_resolution(openshot::Clip& content, int canvas_x, int can
 }
 
 
-void veaml::Video::set_position(openshot::Clip& content, int canvas_x, int canvas_y) {
+void veaml::Image::set_position(openshot::Clip& content, int canvas_x, int canvas_y) {
   content.gravity = GRAVITY_TOP_LEFT;
   content.crop_gravity = GRAVITY_TOP_LEFT;
   content.crop_width.AddPoint(1, 1);

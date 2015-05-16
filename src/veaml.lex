@@ -15,6 +15,8 @@
 #include "image.h"
 #include "audio.h"
 
+extern "C" int yylex();
+
 int lines;
 veaml::Timeline * current_timeline;
 bool adding_timeline = false;

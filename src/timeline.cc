@@ -106,6 +106,7 @@ bool veaml::Timeline::output() {
       audiocodec,              // string for audio codec
       audiorate,               // audio sample rate
       channels,                // channels (2 for stereo)
+      openshot::ChannelLayout(),
       aubitrate                // bitrate
     );
 

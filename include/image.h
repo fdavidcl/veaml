@@ -14,6 +14,7 @@ namespace veaml {
   class Image : public Clip {
   private:
     veaml::Resolution res;
+    veaml::Resolution pos;
 
     void set_timing(openshot::Clip& content);
     void set_position(openshot::Clip& content, int canvas_x, int canvas_y);
