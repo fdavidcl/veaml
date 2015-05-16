@@ -7,3 +7,6 @@ Makefile
 build/Makefile
 src/*.lexer.cc
 thirdparty/
+
+patches/*/*
+!*.patch
